@@ -31,7 +31,7 @@ minimonoventa = None
 minimotrezentosesessenta = None
 minimocentoeoitenta = None
 minimoduzentosesetenta = None
-
+resultados = []
 
 def scaneou(dado):
 	global dadominimo
@@ -144,7 +144,7 @@ if __name__=="__main__":
 	try:
 
 		while not rospy.is_shutdown():
-			vel = Twist(Vector3(0,0,0), Vector3(0,0,0))
+			vel = Twist(Vector3(0,0,0), Vector3(0,0,0.5))
 			vel_andar = Twist(Vector3(0.15,0,0), Vector3(0,0,0))
 			vel_andar_rapido = Twist(Vector3(0.2,0,0), Vector3(0,0,0))
 			vel_parar = Twist(Vector3(0,0,0), Vector3(0,0,0))
@@ -158,8 +158,8 @@ if __name__=="__main__":
 			vel_esquerdinha_fugir = Twist(Vector3(-0.15,0,0), Vector3(0,0,0.8))
 
 			velocidade90 = Twist(Vector3(0, 0, 0), Vector3(0, 0, 0.4))
-			velocidade180 = Twist(Vector3(0, 0, 0), Vector3(0, 0, 0.4))
-			velocidade270 = Twist(Vector3(0, 0, 0), Vector3(0, 0, -0.4))
+			velocidade180 = Twist(Vector3(0.5, 0, 0), Vector3(0, 0, 0.4))
+			velocidade270 = Twist(Vector3(0.5, 0, 0), Vector3(0, 0, -0.4))
 			velocidade360 = Twist(Vector3(0, 0, 0), Vector3(0, 0, -0.4))
 			velocidadere = Twist(Vector3(-1, 0, 0), Vector3(0, 0, 0))
 			velocidadefrente = Twist(Vector3(0.4, 0, 0), Vector3(0, 0, 0))
@@ -181,14 +181,14 @@ if __name__=="__main__":
 					print("Centro dos vermelhos: {0}, {1}".format(centro[0], centro[1]))
 					print("Area: {0}".format(area))
 
-					if media[0]<centro[0] and area < 200000:
+					if media[0]<centro[0] and area > 5000 and area < 120000:
 						velocidade_saida.publish(vel_direitinha)
 						rospy.sleep(0.1)
-					elif media[0]>centro[0] and area < 200000:
+					elif media[0]>centro[0] and area > 5000 and area < 120000:
 						velocidade_saida.publish(vel_esquerdinha)
 						rospy.sleep(0.1)
 					else:
-						velocidade_saida.publish(vel_andar)
+						velocidade_saida.publish(vel)
 						rospy.sleep(0.1)
 
 				if minimonoventa < 0.15:
